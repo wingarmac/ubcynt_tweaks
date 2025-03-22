@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Set Wallpapers with Feh
+Exec=bash -c "source $HOME/.profile && feh --bg-scale \"$WALL_PATH_A\" --bg-scale \"$WALL_PATH_B\""
+X-GNOME-Autostart-enabled=true

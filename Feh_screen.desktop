@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Feh-screen
+GenericName=Feh-screen
+X-GNOME-FullName=Feh-screen-wallpaper-setup
+Exec=bash -c "source $HOME/.profile && /usr/local/bin/set-wallpaper-gui.sh"
+Icon=system-config-display
+Terminal=false
+Categories=Display-settings;
