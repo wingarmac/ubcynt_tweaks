@@ -1,0 +1,37 @@
+#!/bin/bash
+
+TMPFILE=$(mktemp /tmp/notify-details-XXXX.txt)
+
+cat <<EOT > "$TMPFILE"
+📝 Detailed Report
+
+The notification was successfully clicked. Action triggered:
+
+• Status: OK
+• Timestamp: $(date)
+• Script PID: $$
+
+Thank you for using the interactive notifier.
+EOT
+
+NOTIFICATION_ID=$(notify-send "Background Task Finished" \
+  "A detailed report is ready. Click to open it." \
+  --icon="dialog-information" --print-id)
+
+stdbuf -oL awk -v ID="$NOTIFICATION_ID" -v FILE="$TMPFILE" '
+  BEGIN { match_id=0 }
+  /uint32/ {
+    if (match_id==0) {
+      notif_id = $2
+      match_id=1
+    } else {
+      reason = $2
+      if (notif_id == ID && reason == 2) {
+        system("yad --title=\"Detailed Report\" --width=500 --height=250 --text-info --center --filename=" FILE " --button=OK")
+        exit 0
+      }
+      match_id=0
+    }
+  }' < <(dbus-monitor --session "type='signal',interface='org.freedesktop.Notifications',member='NotificationClosed'")
+
+rm -f "$TMPFILE"
