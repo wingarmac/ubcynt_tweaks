@@ -1,4 +1,34 @@
 #!/bin/bash
+#!/bin/bash
+#
+# ┌────────────────────────────────────────────────────────────┐
+# │  testnotify – Cinnamon-friendly notification click handler │
+# └────────────────────────────────────────────────────────────┘
+#
+# Description:
+# This script sends a notification using `notify-send` and listens
+# for a user click using `dbus-monitor`. If the notification is clicked,
+# it opens a styled YAD dialog displaying contextual information.
+#
+# Designed for Cinnamon or any GTK3 environment where `zenity` might
+# cause libadwaita theme warnings. This version ensures full visual
+# consistency with Cinnamon themes.
+#
+# Dependencies:
+#   - notify-send (libnotify-bin)
+#   - yad
+#   - dbus-monitor
+#   - coreutils (mktemp, stdbuf, etc.)
+#
+# Usage:
+#   ./testnotify
+#
+# Output:
+#   🖱️  Clicking the notification opens a detailed popup via YAD.
+#   🧹 Temporary files are automatically cleaned up.
+#
+# See also:
+#   https://askubuntu.com/questions/1179739/how-to-create-a-notification-in-gnome-from-command-with-onclick-functionality
 
 TMPFILE=$(mktemp /tmp/notify-details-XXXX.txt)
 
